@@ -9,6 +9,5 @@ const alumniSchema = new mongoose.Schema({
         description: String
     }]
 });
-
 // Merge with base schema
 const Alumni = mongoose.model("Alumni", baseUserSchema.add(alumniSchema));

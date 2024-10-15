@@ -42,3 +42,7 @@ const baseUserSchema = new mongoose.Schema({
     lastLogin: { type: Date },
     loginCount: { type: Number, default: 0 }
 }, {timestamps: true});
+
+const User = mongoose.model("User", baseUserSchema);
+
+export default User;

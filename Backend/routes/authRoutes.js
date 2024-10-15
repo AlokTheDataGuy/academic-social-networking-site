@@ -2,21 +2,13 @@ import express from "express";
 const router = express.Router();
 
 //Controllers
-const {
-    signup, 
-    login,
-    sendOTP, 
-    changePassword
-} = require("../controllers/auth");
+import { signup, login, sendOTP, changePassword } from "../controllers/auth.js";
 
 //Reset Password
-const {
-    resetPasswordToken, 
-    resetPasssword
-} = require("../controllers/resetPassword");
+import { resetPasswordToken, resetPassword } from "../controllers/resetPassword.js";
 
 //Middleware
-const { auth } = require('../middleware/');
+import { auth } from '../middleware/auth.js';
 
 //Auth Routes
 router.post('/signup', signup);
