@@ -10,7 +10,7 @@ const OTP_EXPIRY_TIME = 10 * 60 * 1000; // 10 minutes
 // Signup Controller
 export const signup = async (req, res) => {
     try {
-        const { name, email, password, role } = req.body;
+        const { name, email, password, role, sex } = req.body;
 
         // Check if user already exists
         const existingUser = await User.findOne({ email });
@@ -22,7 +22,7 @@ export const signup = async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user
-        const newUser = new User({ name, email, password: hashedPassword, role });
+        const newUser = new User({ name, email, password: hashedPassword, role, sex });
         await newUser.save();
 
         return res.status(201).json({ message: "User created successfully" });
@@ -30,6 +30,8 @@ export const signup = async (req, res) => {
         return res.status(500).json({ message: "Server error", error });
     }
 };
+
+
 
 // Login Controller
 export const login = async (req, res) => {
