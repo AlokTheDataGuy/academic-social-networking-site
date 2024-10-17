@@ -30,6 +30,6 @@ export const auth = async (req, res, next) => {
 
         next(); // Pass control to the next middleware or controller
     } catch (error) {
-        return res.status(401).json({ message: "Invalid or expired token" });
+        return res.status(401).json({ message: "Invalid or expired token", error });
     }
 };

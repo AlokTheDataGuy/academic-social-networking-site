@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 
 // JWT secret from environment variables
-const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_SECRET = "notagoodsecret";
 const OTP_EXPIRY_TIME = 10 * 60 * 1000; // 10 minutes
 
 // Signup Controller
@@ -37,9 +37,10 @@ export const signup = async (req, res) => {
 export const login = async (req, res) => {
     try {
         const { email, password } = req.body;
-
+    
         // Find user by email
         const user = await User.findOne({ email });
+
         if (!user) {
             return res.status(404).json({ message: "User not found" });
         }
@@ -51,13 +52,18 @@ export const login = async (req, res) => {
         }
 
         // Generate JWT token
-        const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: "1h" });
+        const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET, { expiresIn: "12h" });
 
         return res.status(200).json({ token, message: "Login successful" });
     } catch (error) {
+        console.error('Error during login:', error);
         return res.status(500).json({ message: "Server error", error });
     }
 };
+
+
+
+
 
 // Send OTP Controller (For verification or password reset)
 export const sendOTP = async (req, res) => {
@@ -123,6 +129,58 @@ export const changePassword = async (req, res) => {
         await user.save();
 
         return res.status(200).json({ message: "Password changed successfully" });
+    } catch (error) {
+        return res.status(500).json({ message: "Server error", error });
+    }
+};
+
+
+
+// Complete Profile Controller
+export const completeProfile = async (req, res) => {
+    try {
+        const { 
+            contactNumber, 
+            location, 
+            bio, 
+            profilePicLink, 
+            qualifications, 
+            skills, 
+            hobbies, 
+            interests, 
+            linkedInProfile, 
+            githubProfile, 
+            achievements 
+        } = req.body;
+        
+        const userId = req.user.userId; // Assuming user ID is available from auth middleware
+
+        // Find the user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Update the user's profile fields
+        if (contactNumber) user.contactNumber = contactNumber;
+        if (location) user.location = location;
+        if (bio) user.bio = bio;
+        if (profilePicLink) user.profilePicLink = profilePicLink;
+        if (qualifications) user.qualifications = qualifications;
+        if (skills) user.skills = skills;
+        if (hobbies) user.hobbies = hobbies;
+        if (interests) user.interests = interests;
+        if (linkedInProfile) user.linkedInProfile = linkedInProfile;
+        if (githubProfile) user.githubProfile = githubProfile;
+        if (achievements) user.achievements = achievements;
+
+        // Mark profile as complete if all mandatory fields are filled
+        const isProfileComplete = contactNumber && location && bio && skills && interests && profilePicLink;
+        user.profileCompletionStatus = isProfileComplete;
+
+        await user.save();
+
+        return res.status(200).json({ message: "Profile completed successfully", profileCompletionStatus: isProfileComplete });
     } catch (error) {
         return res.status(500).json({ message: "Server error", error });
     }
