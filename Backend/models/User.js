@@ -27,7 +27,7 @@ const baseUserSchema = new mongoose.Schema({
     bio: {type: String},
     profilePicLink: { type: String },
     location: { type: String },
-    contactNumber: { type: Number },
+    contactNumber: { type: String },
     dateOfBirth: { type: Date },
 
     qualifications: [{type: String}],
@@ -47,3 +47,4 @@ const baseUserSchema = new mongoose.Schema({
 const User = mongoose.model("User", baseUserSchema);
 
 export default User;
+

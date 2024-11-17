@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 
 //Controllers
-import { signup, login, sendOTP, changePassword, completeProfile } from "../controllers/auth.js";
+import { signup, login, sendOTP, changePassword, completeProfile, getUserDetails } from "../controllers/auth.js";
 
 //Reset Password
 import { resetPasswordToken, resetPassword } from "../controllers/resetPassword.js";
@@ -14,10 +14,11 @@ import { auth } from '../middleware/auth.js';
 router.post('/signup', signup);
 router.post('/login', login);
 router.post('/sendotp', sendOTP);
-router.post('/changepassword', auth, changePassword);
+router.get('/get-user', auth, getUserDetails);
+router.put('/change-password', auth, changePassword);
 
 //For additional info & completing profile
-router.put('/completeProfile', auth, completeProfile);
+router.put('/additional-info', auth, completeProfile);
 
 // Route for generating a reset password token
 router.post('/reset-password-token', resetPasswordToken);

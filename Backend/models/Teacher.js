@@ -1,3 +1,6 @@
+import mongoose from "mongoose";
+import baseUserSchema from "./User.js"; // Import the base schema
+
 const teacherSchema = new mongoose.Schema({
     jobTitle: {type: String},
     coursesTaught: [{ type: String }],
@@ -11,5 +14,10 @@ const teacherSchema = new mongoose.Schema({
     }]
 });
 
-// Merge with base schema
-const Teacher = mongoose.model("Teacher", baseUserSchema.add(teacherSchema));
+// Merge teacher-specific schema with the base user schema
+const Teacher = mongoose.model("Teacher", new mongoose.Schema({
+    ...baseUserSchema.obj, // Spread the base schema fields
+    ...teacherSchema.obj   // Add teacher-specific fields
+}));
+
+export default Teacher;

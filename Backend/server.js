@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 // import studentRoutes from "./routes/studentRoutes.js";
 // import alumniRoutes from "./routes/almuniRoutes.js";
-// import teacherRoutes from "./routes/teacherRoutes.js"; 
+import teacherRoutes from "./routes/teacherRoutes.js"; 
 // import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
 
@@ -29,7 +29,7 @@ app.use(express.json());
 
 // app.use("/api/student", studentRoutes);
 // app.use("/api/alumni", alumniRoutes);
-// app.use("/api/teacher", teacherRoutes);
+app.use("/api/teacher", teacherRoutes);
 // app.use("/api/admin", adminRoutes);
 app.use("/api/auth", authRoutes);
 

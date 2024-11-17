@@ -61,7 +61,23 @@ export const login = async (req, res) => {
     }
 };
 
+// Fetch User Details Controller
+export const getUserDetails = async (req, res) => {
+    try {
+        const userId = req.user.userId; // Assuming user ID is available from auth middleware
 
+        // Find the user by ID, excluding the password field for security
+        const user = await User.findById(userId).select('-password');
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+
+        // Return the user details
+        return res.status(200).json({ user });
+    } catch (error) {
+        return res.status(500).json({ message: "Server error", error });
+    }
+};
 
 
 
@@ -109,16 +125,25 @@ export const sendOTP = async (req, res) => {
     }
 };
 
+
+
+
 // Change Password Controller
 export const changePassword = async (req, res) => {
     try {
-        const { newPassword } = req.body;
+        const { oldPassword, newPassword } = req.body;
         const userId = req.user.userId; // Assuming user ID is available from auth middleware
 
         // Find the user
         const user = await User.findById(userId);
         if (!user) {
             return res.status(404).json({ message: "User not found" });
+        }
+
+        // Compare the old password with the current password
+        const isMatch = await bcrypt.compare(oldPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: "Old password is incorrect" });
         }
 
         // Hash the new password
@@ -175,7 +200,7 @@ export const completeProfile = async (req, res) => {
         if (achievements) user.achievements = achievements;
 
         // Mark profile as complete if all mandatory fields are filled
-        const isProfileComplete = contactNumber && location && bio && skills && interests && profilePicLink;
+        const isProfileComplete = contactNumber && location && skills.length > 0 && interests.length > 0 ;
         user.profileCompletionStatus = isProfileComplete;
 
         await user.save();
