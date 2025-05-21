@@ -1,0 +1,157 @@
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+
+const FacultySchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Please provide a name'],
+    trim: true,
+    maxlength: [50, 'Name cannot be more than 50 characters']
+  },
+  email: {
+    type: String,
+    required: [true, 'Please provide an email'],
+    match: [
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      'Please provide a valid email'
+    ],
+    unique: true,
+    lowercase: true,
+    trim: true
+  },
+  password: {
+    type: String,
+    required: [true, 'Please provide a password'],
+    minlength: [6, 'Password must be at least 6 characters'],
+    select: false
+  },
+  userType: {
+    type: String,
+    default: 'faculty'
+  },
+  employeeId: {
+    type: String,
+    required: [true, 'Please provide an employee ID'],
+    unique: true,
+    trim: true
+  },
+  designation: {
+    type: String,
+    required: [true, 'Please provide a designation'],
+    trim: true
+  },
+  department: {
+    type: String,
+    required: [true, 'Please provide a department'],
+    trim: true
+  },
+  joiningDate: {
+    type: Date,
+    required: [true, 'Please provide joining date']
+  },
+  profilePicture: {
+    type: String,
+    default: ''
+  },
+  coverPhoto: {
+    type: String,
+    default: ''
+  },
+  bio: {
+    type: String,
+    maxlength: [500, 'Bio cannot be more than 500 characters']
+  },
+  specialization: [{
+    type: String,
+    trim: true
+  }],
+  coursesTaught: [{
+    type: String,
+    trim: true
+  }],
+  researchInterests: [{
+    type: String,
+    trim: true
+  }],
+  publications: [{
+    title: String,
+    journal: String,
+    year: Number,
+    url: String
+  }],
+  officeHours: {
+    type: String,
+    trim: true
+  },
+  interests: [{
+    type: String,
+    trim: true
+  }],
+  skills: [{
+    type: String,
+    trim: true
+  }],
+  sanskarPoints: {
+    type: Number,
+    default: 0
+  },
+  connections: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  mentees: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Student'
+  }],
+  posts: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Post'
+  }],
+  events: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Event'
+  }],
+  resources: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Resource'
+  }],
+  canVerifyContent: {
+    type: Boolean,
+    default: true
+  },
+  isVerified: {
+    type: Boolean,
+    default: false
+  },
+  isActive: {
+    type: Boolean,
+    default: true
+  },
+  role: {
+    type: String,
+    default: 'moderator'
+  },
+  resetPasswordToken: String,
+  resetPasswordExpire: Date,
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+// Encrypt password using bcrypt
+FacultySchema.pre('save', async function(next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+  
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// Match user entered password to hashed password in database
+FacultySchema.methods.matchPassword = async function(enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+module.exports = mongoose.model('Faculty', FacultySchema);
