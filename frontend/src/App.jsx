@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
+import Events from './pages/Events';
 import Unauthorized from './pages/Unauthorized';
 
 // Protected Route Component
@@ -48,11 +50,13 @@ function App() {
   return (
     <Router>
       <Routes>
-        {/* Public routes */}
+        {/* Auth routes - without navbar/footer */}
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
+
+        {/* Public and protected routes - with navbar/footer */}
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="login" element={<Login />} />
-          <Route path="register" element={<Register />} />
           <Route path="unauthorized" element={<Unauthorized />} />
 
           {/* Protected routes */}
@@ -61,6 +65,22 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="events"
+            element={
+              <ProtectedRoute>
+                <Events />
               </ProtectedRoute>
             }
           />

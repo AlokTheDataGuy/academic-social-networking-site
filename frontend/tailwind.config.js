@@ -5,6 +5,14 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    screens: {
+      'xs': '475px',
+      'sm': '640px',
+      'md': '768px',
+      'lg': '1024px',
+      'xl': '1280px',
+      '2xl': '1536px',
+    },
     extend: {
       colors: {
         primary: {
@@ -48,6 +56,44 @@ export default {
         'poppins': ['Poppins', 'sans-serif'],
         'yatra': ['"Yatra One"', 'cursive'],
         'noto-devanagari': ['"Noto Sans Devanagari"', 'sans-serif'],
+        'playfair': ['"Playfair Display"', 'serif'],
+        'montserrat': ['Montserrat', 'sans-serif'],
+      },
+      keyframes: {
+        'fade-in-down': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(-10px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        },
+        'spin-slow': {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+        'reverse-spin-slow': {
+          '0%': { transform: 'rotate(360deg)' },
+          '100%': { transform: 'rotate(0deg)' },
+        },
+        'pulse-glow': {
+          '0%, 100%': {
+            opacity: 0.8,
+            boxShadow: '0 0 5px rgba(255, 195, 0, 0.5), 0 0 10px rgba(204, 0, 0, 0.3)'
+          },
+          '50%': {
+            opacity: 1,
+            boxShadow: '0 0 10px rgba(255, 195, 0, 0.8), 0 0 20px rgba(204, 0, 0, 0.5)'
+          },
+        }
+      },
+      animation: {
+        'fade-in-down': 'fade-in-down 0.5s ease-out',
+        'spin-slow': 'spin-slow 20s linear infinite',
+        'reverse-spin-slow': 'reverse-spin-slow 20s linear infinite',
+        'pulse-glow': 'pulse-glow 3s ease-in-out infinite',
       },
     },
   },

@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import registerBg from '../../assets/images/register_background.jpg';
 import dsvvLogo from '../../assets/images/dsvv_logo.png';
+import logoText from '../../assets/images/logo-text.png';
+import logoTextWhite from '../../assets/images/logo-text-white.png';
 import StudentRegistrationForm from '../../components/auth/StudentRegistrationForm';
 import FacultyRegistrationForm from '../../components/auth/FacultyRegistrationForm';
 import AlumniRegistrationForm from '../../components/auth/AlumniRegistrationForm';
@@ -133,28 +135,34 @@ export default function Register() {
           src={registerBg}
           alt="DSVV Campus"
         />
-        <div className="absolute inset-0 bg-gradient-to-l from-secondary-600/30 to-primary-900/30 mix-blend-multiply" />
-        <div className="absolute inset-0 flex flex-col justify-center items-center text-white">
-          <h1 className="text-4xl font-bold font-yatra mb-4">Join DSVV Connect</h1>
-          <p className="text-xl max-w-md text-center">
-            Connect with students, faculty, and alumni in an academic-focused environment
-          </p>
+        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute mb-10 inset-0 flex flex-col justify-center items-center text-white">
+          <img className="h-32 m-4 w-auto" src={dsvvLogo} alt="DSVV Logo" />
+
+          <h1 className="relative z-50 font-extrabold font-bold text-5xl md:text-6xl lg:text-7xl text-white leading-tight" style={{ textShadow: '0 0 15px rgba(0,0,0,0.5)' }}>
+                <span className="ml-14">DSVV</span>
+                <span className="block text-accent-400 mt-1" style={{ textShadow: '0 0 15px rgba(204,156,0,0.5)' }}>Connect</span>
+              </h1>
+          <p className="font-extrabold text-xl max-w-md text-center italic font-medium text-white mt-5">
+Connect, Learn, Grow, Transform          </p>
         </div>
+      </div>
+
+      {/* Back to Home link - positioned at top left */}
+      <div className="absolute top-4 right-4 z-10">
+        <Link to="/" className="text-sm font-medium text-secondary-600 hover:text-secondary-500 flex items-center bg-white/90 backdrop-blur-sm px-3 py-2 rounded-md shadow-sm transition-all duration-300 hover:bg-white">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+          </svg>
+          Back to Home
+        </Link>
       </div>
 
       {/* Right side - Registration Form */}
       <div className="flex-1 flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-20 xl:px-24">
         <div className="mx-auto w-full max-w-sm lg:w-96">
-          <div className="flex justify-center">
-            <Link to="/">
-              <img
-                className="h-12 w-auto"
-                src={dsvvLogo}
-                alt="DSVV Logo"
-              />
-            </Link>
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-gray-900">
+
+          <h2 className="mt-3 text-center text-3xl font-bold tracking-tight text-gray-900">
             Create your account
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
@@ -170,7 +178,7 @@ export default function Register() {
             </div>
           )}
 
-          <div className="mt-8">
+          <div className="mt-6">
             <div className="mt-6">
               <form onSubmit={handleSubmit} className="space-y-6">
                 {step === 1 ? (
@@ -303,8 +311,8 @@ export default function Register() {
                     <div className="mb-6">
                       <h3 className="text-lg font-medium text-gray-900">
                         {formData.userType === 'student' ? 'Student Information' :
-                         formData.userType === 'faculty' ? 'Faculty Information' :
-                         'Alumni Information'}
+                          formData.userType === 'faculty' ? 'Faculty Information' :
+                            'Alumni Information'}
                       </h3>
                       <p className="text-sm text-gray-500 mt-1">
                         Please provide your {formData.userType} details

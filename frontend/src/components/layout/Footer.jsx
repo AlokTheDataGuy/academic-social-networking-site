@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import dsvvLogo from '../../assets/images/dsvv_logo.png';
+import logoText from '../../assets/images/logo-text.png';
 
 export default function Footer() {
   return (
@@ -9,9 +10,12 @@ export default function Footer() {
           <div className="space-y-8 xl:col-span-1">
             <div className="flex items-center">
               <img className="h-10 w-auto" src={dsvvLogo} alt="DSVV Logo" />
-              <span className="ml-2 text-xl font-semibold text-secondary-600 font-yatra">DSVV Connect</span>
+              <img className="h-6 w-auto ml-2" src={logoText} alt="DSVV Connect" />
             </div>
-            <p className="text-gray-600 text-sm">
+            <p className="text-secondary-600 text-sm font-extrabold italic">
+              Where Academic Excellence Meets Spiritual Wisdom
+            </p>
+            <p className="mt-0 text-gray-600 text-sm">
               A specialized social platform for Dev Sanskriti Vishwavidyalaya that connects students, faculty, and alumni in an academic-focused environment.
             </p>
             <div className="flex space-x-6">
@@ -150,6 +154,9 @@ export default function Footer() {
         </div>
         <div className="mt-12 border-t border-gray-200 pt-8">
           <p className="text-sm text-gray-500 text-center">&copy; {new Date().getFullYear()} Dev Sanskriti Vishwavidyalaya. All rights reserved.</p>
+        </div>
+        <div>
+          <p className="text-sm text-gray-500 text-center mt-2">Built with ❤️ by <a  href="https://alok-the-data-guy.vercel.app/" className="text-secondary-600 hover:underline" target="_blank" rel="noopener noreferrer"> @Alok_The_Data_Guy</a></p>
         </div>
       </div>
     </footer>

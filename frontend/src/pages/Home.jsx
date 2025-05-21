@@ -5,7 +5,7 @@ import facultyIcon from '../assets/images/faculty.png';
 import alumniIcon from '../assets/images/alumni.png';
 
 export default function Home() {
-  const features = [
+const features = [
     {
       name: 'Academic Portfolios',
       description: 'Showcase your academic achievements, research interests, and professional skills.',
@@ -60,71 +60,202 @@ export default function Home() {
         </svg>
       ),
     },
+    {
+      name: 'Spirituality Center',
+      description: 'Explore spiritual practices, philosophy, and access resources for inner growth and transformation.',
+      icon: (
+       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="currentColor" className="w-6 h-6">
+      <text x="50%" y="50%" dominantBaseline="middle" textAnchor="middle" fontSize="50" fontFamily="Devanagari, serif">ॐ</text>
+    </svg>
+      ),
+    },
+    {
+      name: 'Networking Hub',
+      description: 'Connect with alumni, industry experts, and like-minded individuals for personal and professional growth.',
+      icon: (
+         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
+  <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25ZM6.262 6.072a8.25 8.25 0 1 0 10.562-.766 4.5 4.5 0 0 1-1.318 1.357L14.25 7.5l.165.33a.809.809 0 0 1-1.086 1.085l-.604-.302a1.125 1.125 0 0 0-1.298.21l-.132.131c-.439.44-.439 1.152 0 1.591l.296.296c.256.257.622.374.98.314l1.17-.195c.323-.054.654.036.905.245l1.33 1.108c.32.267.46.694.358 1.1a8.7 8.7 0 0 1-2.288 4.04l-.723.724a1.125 1.125 0 0 1-1.298.21l-.153-.076a1.125 1.125 0 0 1-.622-1.006v-1.089c0-.298-.119-.585-.33-.796l-1.347-1.347a1.125 1.125 0 0 1-.21-1.298L9.75 12l-1.64-1.64a6 6 0 0 1-1.676-3.257l-.172-1.03Z" clipRule="evenodd" />
+</svg>
+
+      ),
+    },
   ];
 
   return (
     <div className="bg-white">
       {/* Hero section */}
-      <div className="relative">
-        <div className="absolute inset-0">
+     <div className="relative min-h-[100vh] md:min-h-[110vh] flex flex-col">
+        {/* Background with gradient overlay */}
+        <div className="absolute inset-0 z-0">
           <img
             className="h-full w-full object-cover"
             src={heroImage}
             alt="DSVV Campus"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-secondary-600/40 to-primary-900/40 mix-blend-multiply" />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
-        <div className="relative max-w-7xl mx-auto py-24 px-4 sm:py-32 sm:px-6 lg:px-8">
-          <h1 className="text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">DSVV Connect</h1>
-          <p className="mt-6 max-w-3xl text-xl text-white">
-            A specialized social platform for Dev Sanskriti Vishwavidyalaya that connects students, faculty, and alumni in an academic-focused environment.
-          </p>
-          <div className="mt-10 flex space-x-4">
-            <Link
-              to="/register"
-              className="inline-block bg-secondary-600 py-3 px-6 border border-transparent rounded-md text-base font-medium text-white hover:bg-secondary-700"
-            >
-              Join Now
-            </Link>
-            <Link
-              to="/login"
-              className="inline-block bg-white py-3 px-6 border border-transparent rounded-md text-base font-medium text-secondary-600 hover:bg-gray-50"
-            >
-              Sign In
-            </Link>
+
+        {/* Hero content */}
+        <div className="relative z-10 flex flex-col justify-center items-center h-[100vh] md:h-[110vh] px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto text-center">
+
+            {/* Atom animation with title as nucleus */}
+            <div className="relative flex justify-center items-center h-[180px] sm:h-[200px] md:h-[250px] lg:h-[300px]">
+              {/* Main heading as nucleus - brought forward with higher z-index */}
+              <h1 className="relative z-50 font-extrabold font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-white leading-tight" style={{ textShadow: '0 0 15px rgba(0,0,0,0.5)' }}>
+                <span>DSVV<span className="block text-accent-400 mt-1" style={{ textShadow: '0 0 15px rgba(204,156,0,0.5)' }}>Connect</span></span>
+              </h1>
+
+              {/* Electron orbits - all pushed to the back */}
+              <div className="absolute w-[250px] h-[250px] sm:w-[300px] sm:h-[300px] md:w-[400px] md:h-[400px] lg:w-[500px] lg:h-[500px] rounded-full animate-spin-slow z-1" style={{ animationDuration: '15s', transform: 'rotateZ(30deg)' }}>
+                <div className="absolute h-full w-full rounded-full" style={{ border: '1px solid rgba(255,255,255,0.1)' }}></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-accent-500 to-secondary-600 flex items-center justify-center shadow-lg shadow-secondary-500/20 animate-pulse-glow">
+                    {features[0].icon}
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-accent-500 to-secondary-600 flex items-center justify-center shadow-lg shadow-secondary-500/20 animate-pulse-glow" style={{ animationDelay: '0.5s' }}>
+                    {features[1].icon}
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute w-[280px] h-[160px] sm:w-[350px] sm:h-[200px] md:w-[450px] md:h-[250px] lg:w-[550px] lg:h-[300px] animate-spin-slow z-1" style={{ animationDuration: '25s', transform: 'rotateX(70deg) rotateY(20deg) rotateZ(15deg)' }}>
+                <div className="absolute h-full w-full rounded-full" style={{ border: '1px solid rgba(255,255,255,0.1)' }}></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-red-500 flex items-center justify-center shadow-lg shadow-red-500/20 animate-pulse-glow">
+                    {features[2].icon}
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-red-500 flex items-center justify-center shadow-lg shadow-red-500/20 animate-pulse-glow" style={{ animationDelay: '0.7s' }}>
+                    {features[3].icon}
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute w-[160px] h-[280px] sm:w-[200px] sm:h-[350px] md:w-[250px] md:h-[450px] lg:w-[300px] lg:h-[550px] animate-reverse-spin-slow z-1" style={{ animationDuration: '20s', transform: 'rotateX(10deg) rotateY(80deg) rotateZ(-15deg)' }}>
+                <div className="absolute h-full w-full rounded-full" style={{ border: '1px solid rgba(255,255,255,0.1)' }}></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/20 animate-pulse-glow">
+                    {features[4].icon}
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-orange-400 to-red-600 flex items-center justify-center shadow-lg shadow-orange-500/20 animate-pulse-glow" style={{ animationDelay: '0.3s' }}>
+                    {features[5].icon}
+                  </div>
+                </div>
+              </div>
+
+              <div className="absolute w-[320px] h-[200px] sm:w-[400px] sm:h-[250px] md:w-[500px] md:h-[300px] lg:w-[600px] lg:h-[350px] animate-reverse-spin-slow z-1" style={{ animationDuration: '30s', transform: 'rotateX(45deg) rotateY(30deg) rotateZ(60deg)' }}>
+                <div className="absolute h-full w-full rounded-full" style={{ border: '1px solid rgba(255,255,255,0.1)' }}></div>
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 animate-pulse-glow">
+                    {features[6].icon}
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 p-2">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 flex items-center justify-center shadow-lg shadow-yellow-500/20 animate-pulse-glow" style={{ animationDelay: '0.9s' }}>
+                    {features[7].icon}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Slogan with custom font - brought forward and closer to title */}
+            <p className="-mt-8 sm:-mt-12 -mb-1 text-sm sm:text-2xl font-extrabold italic font-medium text-white tracking-wide z-50 relative" style={{ textShadow: '0 0 10px rgba(0,0,0,0.5)' }}>
+              Where Academic Excellence Meets Spiritual Wisdom
+            </p>
+
+            {/* Description with improved readability - brought forward - hidden on mobile */}
+            <p className="mt-6 max-w-2xl mx-auto text-lg text-white font-montserrat font-light leading-relaxed z-50 relative hidden sm:block" style={{ textShadow: '0 0 8px rgba(0,0,0,0.5)' }}>
+A dedicated social platform for Dev Sanskriti Vishwavidyalaya to connect students, faculty, and alumni in an academic setting.           
+ </p>
+
+            {/* Modern CTA buttons with hover effects */}
+            <div className="mt-12 flex flex-col sm:flex-row justify-center gap-4 relative z-50">
+              <Link
+                to="/register"
+                className="px-6 py-3 sm:px-8 sm:py-4 rounded-lg bg-gradient-to-r from-secondary-600 to-secondary-700 text-white font-montserrat font-semibold tracking-wide shadow-lg shadow-secondary-700/30 hover:shadow-xl hover:shadow-secondary-700/40 hover:-translate-y-0.5 transition-all duration-300 text-sm sm:text-base"
+              >
+                Join Now
+              </Link>
+              <Link
+                to="/login"
+                className="px-6 py-3 sm:px-8 sm:py-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 text-white font-montserrat font-semibold tracking-wide hover:bg-white/20 transition-all duration-300 text-sm sm:text-base"
+              >
+                Sign In
+              </Link>
+            </div>
           </div>
+        </div>
+
+        {/* Arrow scroll indicator */}
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center z-10">
+          <a
+            href="#features"
+            className="group flex flex-col items-center"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+            }}
+          >
+            <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/30 transition-all duration-300 border border-white/30 shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-5 h-5 text-white animate-bounce">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 13.5L12 21m0 0l-7.5-7.5M12 21V3" />
+              </svg>
+            </div>
+          </a>
         </div>
       </div>
 
       {/* Features section */}
-      <div className="py-16 bg-gray-50 overflow-hidden">
+      <div id="features" className="py-24 bg-gradient-to-b from-gray-50 to-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h2 className="text-base font-semibold text-secondary-600 tracking-wide uppercase">Features</h2>
-            <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight">
+            <div className="inline-flex items-center px-4 py-2 rounded-full bg-secondary-50 mb-4">
+              <span className="text-secondary-600 text-sm font-montserrat font-medium tracking-wide">Discover What We Offer</span>
+            </div>
+            <h2 className="mt-2 text-3xl sm:text-4xl font-playfair font-bold text-gray-900 sm:text-5xl sm:tracking-tight">
               Everything you need for academic success
-            </p>
-            <p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
+            </h2>
+            <p className="max-w-xl mt-5 mx-auto text-base sm:text-xl text-gray-500 font-montserrat font-light px-4 sm:px-0">
               DSVV Connect provides a distraction-free environment focused on academic growth and holistic development.
             </p>
           </div>
 
-          <div className="mt-16">
-            <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-              {features.map((feature) => (
-                <div key={feature.name} className="pt-6">
-                  <div className="flow-root bg-white rounded-lg px-6 pb-8 shadow-md h-full">
-                    <div className="-mt-6">
-                      <div>
-                        <span className="inline-flex items-center justify-center p-3 bg-secondary-600 rounded-md shadow-lg">
-                          <div className="h-6 w-6 text-white" aria-hidden="true">
-                            {feature.icon}
-                          </div>
-                        </span>
+          <div className="mt-20">
+            <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3">
+              {features.map((feature, index) => (
+                <div
+                  key={feature.name}
+                  className="group bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 hover:border-secondary-100 relative overflow-hidden"
+                >
+                  {/* Decorative background pattern */}
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-secondary-50/30 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+                  {/* Icon with gradient background */}
+                  <div className="relative z-10">
+                    <div className="inline-flex items-center justify-center p-3 bg-gradient-to-r from-secondary-500 to-secondary-600 rounded-lg shadow-md mb-6 group-hover:shadow-secondary-500/20 transition-all duration-300 group-hover:scale-110">
+                      <div className="h-6 w-6 text-white" aria-hidden="true">
+                        {feature.icon}
                       </div>
-                      <h3 className="mt-8 text-lg font-medium text-gray-900 tracking-tight">{feature.name}</h3>
-                      <p className="mt-5 text-base text-gray-500">{feature.description}</p>
                     </div>
+
+                    {/* Feature number */}
+                    <span className="absolute -top-2 -left-2 text-4xl font-playfair font-bold text-gray-100 opacity-50">
+                      {index + 1}
+                    </span>
+
+                    {/* Feature content */}
+                    <h3 className="text-xl font-montserrat font-semibold text-gray-900 mb-4">
+                      {feature.name}
+                    </h3>
+                    <p className="text-gray-600 font-montserrat leading-relaxed">
+                      {feature.description}
+                    </p>
                   </div>
                 </div>
               ))}
@@ -138,10 +269,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h2 className="text-base font-semibold text-secondary-600 tracking-wide uppercase">For Everyone</h2>
-            <p className="mt-1 text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight">
+            <p className="mt-1 text-3xl sm:text-4xl font-extrabold text-gray-900 sm:text-5xl sm:tracking-tight">
               Designed for the DSVV community
             </p>
-            <p className="max-w-xl mt-5 mx-auto text-xl text-gray-500">
+            <p className="max-w-xl mt-5 mx-auto text-base sm:text-xl text-gray-500 px-4 sm:px-0">
               Whether you're a student, faculty member, or alumni, DSVV Connect has features tailored for you.
             </p>
           </div>
@@ -245,7 +376,7 @@ export default function Home() {
       {/* CTA section */}
       <div className="bg-secondary-600">
         <div className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8 lg:flex lg:items-center lg:justify-between">
-          <h2 className="text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+          <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             <span className="block">Ready to get started?</span>
             <span className="block text-accent-500">Join DSVV Connect today.</span>
           </h2>
@@ -253,7 +384,7 @@ export default function Home() {
             <div className="inline-flex rounded-md shadow">
               <Link
                 to="/register"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-secondary-600 bg-white hover:bg-gray-50"
+                className="inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-secondary-600 bg-white hover:bg-gray-50"
               >
                 Get started
               </Link>
@@ -261,7 +392,7 @@ export default function Home() {
             <div className="ml-3 inline-flex rounded-md shadow">
               <Link
                 to="/about"
-                className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-secondary-700 hover:bg-secondary-800"
+                className="inline-flex items-center justify-center px-4 py-2 sm:px-5 sm:py-3 border border-transparent text-sm sm:text-base font-medium rounded-md text-white bg-secondary-700 hover:bg-secondary-800"
               >
                 Learn more
               </Link>

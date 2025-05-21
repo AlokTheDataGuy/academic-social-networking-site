@@ -1,43 +1,17 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Disclosure, Menu, Transition } from '@headlessui/react';
 import { Bars3Icon, XMarkIcon, BellIcon } from '@heroicons/react/24/outline';
 import dsvvLogo from '../../assets/images/dsvv_logo.png';
+import logoText from '../../assets/images/logo-text.png';
+import logoTextWhite from '../../assets/images/logo-text-white.png';
 
-// Common navigation items for all user types
+// Navigation items
 const commonNavigation = [
-  { name: 'Dashboard', href: '/dashboard', current: false },
-  { name: 'Discussion Forums', href: '/forums', current: false },
+  { name: 'Home', href: '/', current: false },
+  { name: 'Profile', href: '/profile', current: false },
   { name: 'Events', href: '/events', current: false },
-  { name: 'Wellness Center', href: '/wellness', current: false },
-];
-
-// Student-specific navigation items
-const studentNavigation = [
-  { name: 'Academic Resources', href: '/resources', current: false },
-  { name: 'Career Center', href: '/careers', current: false },
-  { name: 'Alumni Network', href: '/alumni', current: false },
-];
-
-// Faculty-specific navigation items
-const facultyNavigation = [
-  { name: 'Academic Resources', href: '/resources', current: false },
-  { name: 'Content Verification', href: '/content-verification', current: false },
-  { name: 'Student Mentoring', href: '/mentoring', current: false },
-];
-
-// Alumni-specific navigation items
-const alumniNavigation = [
-  { name: 'Alumni Network', href: '/alumni', current: false },
-  { name: 'Job Postings', href: '/job-postings', current: false },
-  { name: 'Mentoring', href: '/mentoring', current: false },
-];
-
-// Admin-specific navigation items
-const adminNavigation = [
-  { name: 'Admin Panel', href: '/admin', current: false },
-  { name: 'User Management', href: '/admin/users', current: false },
-  { name: 'Content Management', href: '/admin/content', current: false },
+  { name: 'Resources', href: '/resources', current: false },
 ];
 
 function classNames(...classes) {
@@ -46,58 +20,50 @@ function classNames(...classes) {
 
 export default function Navbar() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userType, setUserType] = useState(null);
   const [navigation, setNavigation] = useState([]);
-  const [user, setUser] = useState(null);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   useEffect(() => {
     // Check if user is logged in
     const token = localStorage.getItem('token');
-    const storedUserType = localStorage.getItem('userType');
-    const storedUser = localStorage.getItem('user');
 
     if (token) {
       setIsLoggedIn(true);
-
-      if (storedUserType) {
-        setUserType(storedUserType);
-      }
-
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
     }
   }, []);
 
   useEffect(() => {
-    // Set navigation items based on user type
-    if (!userType) {
-      setNavigation(commonNavigation);
-      return;
-    }
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 50) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
 
-    let userNavigation = [...commonNavigation];
+    // Initial check
+    handleScroll();
 
-    switch (userType) {
-      case 'student':
-        userNavigation = [...commonNavigation, ...studentNavigation];
-        break;
-      case 'faculty':
-        userNavigation = [...commonNavigation, ...facultyNavigation];
-        break;
-      case 'alumni':
-        userNavigation = [...commonNavigation, ...alumniNavigation];
-        break;
-      case 'admin':
-        userNavigation = [...commonNavigation, ...adminNavigation];
-        break;
-      default:
-        userNavigation = commonNavigation;
-    }
+    window.addEventListener('scroll', handleScroll);
 
-    setNavigation(userNavigation);
-  }, [userType]);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // Update current page in navigation
+    const updatedNavigation = commonNavigation.map(item => ({
+      ...item,
+      current: item.href === location.pathname
+    }));
+
+    setNavigation(updatedNavigation);
+  }, [location.pathname]);
 
   const handleLogout = () => {
     // Clear user data from localStorage
@@ -105,20 +71,64 @@ export default function Navbar() {
     localStorage.removeItem('token');
     localStorage.removeItem('userType');
     setIsLoggedIn(false);
-    setUserType(null);
-    setUser(null);
     navigate('/login');
   };
 
   return (
-    <Disclosure as="nav" className="bg-white shadow-md">
+    <Disclosure as="nav" className={`fixed w-full z-50 transition-all duration-500 ${isHomePage && !scrolled
+        ? 'opacity-0 -translate-y-full pointer-events-none'
+        : scrolled || !isHomePage
+          ? 'bg-white shadow-md opacity-100 translate-y-0'
+          : 'opacity-0 -translate-y-full pointer-events-none'
+      }`}>
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
-              <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
-                {/* Mobile menu button*/}
-                <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary-600">
+              <div className="flex items-center">
+                <Link to="/" className="flex items-center">
+                  <img
+                    className="h-8 w-auto"
+                    src={dsvvLogo}
+                    alt="DSVV Logo"
+                  />
+                  <img
+                    className="h-6 w-auto ml-2"
+                    src={scrolled || !isHomePage ? logoText : logoTextWhite}
+                    alt="DSVV Connect"
+                  />
+                </Link>
+              </div>
+
+              <div className="hidden md:block mx-auto">
+                <div className="flex justify-center space-x-4 lg:space-x-6">
+                  {navigation.map((item) => (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      className={classNames(
+                        item.current
+                          ? 'bg-secondary-600 text-white'
+                          : scrolled || !isHomePage
+                            ? 'text-gray-800 hover:bg-secondary-50 hover:text-secondary-600'
+                            : 'text-white hover:bg-white/20 hover:text-white',
+                        'rounded-md px-3 lg:px-4 py-2 text-sm transition-colors duration-300',
+                        (scrolled || !isHomePage) ? 'font-bold' : 'font-semibold'
+                      )}
+                      aria-current={item.current ? 'page' : undefined}
+                    >
+                      {item.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Mobile menu button - moved to right */}
+              <div className="md:hidden">
+                <Disclosure.Button className={`relative inline-flex items-center justify-center rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-secondary-600 transition-colors duration-300 ${scrolled || !isHomePage
+                    ? 'text-gray-700 hover:bg-gray-100'
+                    : 'text-white hover:bg-white/20'
+                  }`}>
                   <span className="absolute -inset-0.5" />
                   <span className="sr-only">Open main menu</span>
                   {open ? (
@@ -128,38 +138,7 @@ export default function Navbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
-                  <Link to="/">
-                    <img
-                      className="h-8 w-auto"
-                      src={dsvvLogo}
-                      alt="DSVV Logo"
-                    />
-                  </Link>
-                  <span className="ml-2 text-lg font-semibold text-secondary-600 font-yatra">DSVV Connect</span>
-                </div>
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
-                    {navigation.map((item) => (
-                      <Link
-                        key={item.name}
-                        to={item.href}
-                        className={classNames(
-                          item.current
-                            ? 'bg-secondary-600 text-white'
-                            : 'text-gray-700 hover:bg-secondary-50 hover:text-secondary-600',
-                          'rounded-md px-3 py-2 text-sm font-medium'
-                        )}
-                        aria-current={item.current ? 'page' : undefined}
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="hidden md:flex items-center ml-6">
                 {isLoggedIn ? (
                   <>
                     <button
@@ -240,13 +219,19 @@ export default function Navbar() {
                   <div className="flex space-x-2">
                     <Link
                       to="/login"
-                      className="text-gray-700 hover:bg-secondary-50 hover:text-secondary-600 rounded-md px-3 py-2 text-sm font-medium"
+                      className={`rounded-md px-3 py-2 text-sm transition-colors duration-300 ${scrolled || !isHomePage
+                          ? 'text-gray-700 hover:bg-secondary-50 hover:text-secondary-600 font-semibold'
+                          : 'text-white hover:bg-white/20 hover:text-white font-medium'
+                        }`}
                     >
                       Login
                     </Link>
                     <Link
                       to="/register"
-                      className="bg-secondary-600 text-white hover:bg-secondary-700 rounded-md px-3 py-2 text-sm font-medium"
+                      className={`rounded-md px-3 py-2 text-sm transition-colors duration-300 ${scrolled || !isHomePage
+                          ? 'bg-secondary-600 text-white hover:bg-secondary-700 font-semibold'
+                          : 'bg-white/20 text-white hover:bg-white/30 font-medium border border-white/50'
+                        }`}
                     >
                       Register
                     </Link>
@@ -256,24 +241,54 @@ export default function Navbar() {
             </div>
           </div>
 
-          <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
-              {navigation.map((item) => (
-                <Disclosure.Button
-                  key={item.name}
-                  as={Link}
-                  to={item.href}
-                  className={classNames(
-                    item.current
-                      ? 'bg-secondary-600 text-white'
-                      : 'text-gray-700 hover:bg-secondary-50 hover:text-secondary-600',
-                    'block rounded-md px-3 py-2 text-base font-medium'
-                  )}
-                  aria-current={item.current ? 'page' : undefined}
-                >
-                  {item.name}
-                </Disclosure.Button>
-              ))}
+          <Disclosure.Panel className={`md:hidden shadow-md ${scrolled || !isHomePage ? 'bg-white' : 'bg-transparent backdrop-blur-sm'}`}>
+            <div className="px-2 pb-3 pt-2">
+              {/* Navigation items */}
+              <div className="space-y-1">
+                {navigation.map((item) => (
+                  <Disclosure.Button
+                    key={item.name}
+                    as={Link}
+                    to={item.href}
+                    className={classNames(
+                      item.current
+                        ? 'bg-secondary-600 text-white'
+                        : scrolled || !isHomePage
+                          ? 'text-gray-800 hover:bg-secondary-50 hover:text-secondary-600'
+                          : 'text-white hover:bg-white/20 hover:text-white',
+                      'block rounded-md px-3 py-2 text-base transition-colors duration-300',
+                      (scrolled || !isHomePage) ? 'font-bold' : 'font-semibold'
+                    )}
+                    aria-current={item.current ? 'page' : undefined}
+                  >
+                    {item.name}
+                  </Disclosure.Button>
+                ))}
+              </div>
+
+              {/* Login/Register buttons in mobile menu if not logged in */}
+              {!isLoggedIn && (
+                <div className="mt-4 pt-3 border-t border-gray-200/20 flex flex-col space-y-2 px-3">
+                  <Link
+                    to="/login"
+                    className={`rounded-md px-3 py-2 text-sm text-center transition-colors duration-300 ${scrolled || !isHomePage
+                        ? 'text-gray-700 hover:bg-secondary-50 hover:text-secondary-600 font-semibold'
+                        : 'text-white hover:bg-white/20 hover:text-white font-medium'
+                      }`}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/register"
+                    className={`rounded-md px-3 py-2 text-sm text-center transition-colors duration-300 ${scrolled || !isHomePage
+                        ? 'bg-secondary-600 text-white hover:bg-secondary-700 font-semibold'
+                        : 'bg-white/20 text-white hover:bg-white/30 font-medium border border-white/50'
+                      }`}
+                  >
+                    Register
+                  </Link>
+                </div>
+              )}
             </div>
           </Disclosure.Panel>
         </>

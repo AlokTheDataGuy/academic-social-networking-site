@@ -2,6 +2,9 @@
 
 A specialized social platform for Dev Sanskriti Vishwavidyalaya that connects students, faculty, and alumni in an academic-focused environment.
 
+# Screenshot
+![Home Page](./screenshot.png)
+
 ## Features
 
 - User authentication with different user types (Student, Faculty, Alumni, Admin)
